@@ -23,13 +23,13 @@ static NSString *const CellIdentifier = @"pirateCell";
 {
     [super viewDidLoad];
     self.store = [FISPiratesDataStore sharedPiratesDataStore];
+    [self.store fetchData];
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     
-    [self.store fetchData];
     [self.tableView reloadData];
 }
 - (void)didReceiveMemoryWarning

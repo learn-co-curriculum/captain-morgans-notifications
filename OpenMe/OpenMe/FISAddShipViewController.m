@@ -8,8 +8,6 @@
 
 #import "FISAddShipViewController.h"
 #import "FISPiratesDataStore.h"
-#import "Ship.h"
-#import "Engine.h"
 
 @interface FISAddShipViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *shipNameField;
@@ -24,6 +22,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -33,15 +32,10 @@
 }
 
 - (IBAction)saveButtonTapped:(id)sender {
-    FISPiratesDataStore *store = [FISPiratesDataStore sharedPiratesDataStore];
-    Ship *newShip = [NSEntityDescription insertNewObjectForEntityForName:@"Ship" inManagedObjectContext:store.managedObjectContext];
-    newShip.name = self.shipNameField.text;
-    newShip.engine = [NSEntityDescription insertNewObjectForEntityForName:@"Engine" inManagedObjectContext:store.managedObjectContext];
-    newShip.engine.engineType = self.engineTypeField.text;
+    NSDictionary *shipInfo = @{@"entity": @"ship", @"content": @{@"pirate": self.pirate, @"shipName": self.shipNameField.text, @"engineType": self.engineTypeField.text}};
     
-    [self.pirate addShipsObject:newShip];
-    
-    [store save];
+    [[NSNotificationCenter defaultCenter] postNotificationName:DataStoreSaveNotification object:nil userInfo:shipInfo];
+
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 

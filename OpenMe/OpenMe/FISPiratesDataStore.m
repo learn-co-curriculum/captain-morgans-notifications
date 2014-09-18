@@ -7,7 +7,8 @@
 //
 
 #import "FISPiratesDataStore.h"
-#import "Ship.h"
+#import "Ship+ConvenienceMethods.h"
+#import "Pirate+ConvenienceMethods.h"
 #import "Engine.h"
 
 @interface FISPiratesDataStore ()
@@ -21,6 +22,8 @@ typedef NS_ENUM(NSInteger, EngineType) {
 @implementation FISPiratesDataStore
 @synthesize managedObjectContext = _managedObjectContext;
 
+NSString * const DataStoreSaveNotification = @"saveNotification";
+
 # pragma mark - Singleton
 
 + (instancetype)sharedPiratesDataStore {
@@ -31,6 +34,34 @@ typedef NS_ENUM(NSInteger, EngineType) {
     });
 
     return _sharedPiratesDataStore;
+}
+
+-(instancetype)init
+{
+    self = [super init];
+    if (self) {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationSave:) name:DataStoreSaveNotification object:nil];
+    }
+    return self;
+}
+
+-(void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+-(void)notificationSave:(NSNotification *)notification
+{
+    NSDictionary *userInfo = [notification userInfo];
+    
+    if ([userInfo[@"entity"] isEqualToString:@"Pirate"]) {
+        [Pirate pirateFromDictionary:userInfo[@"content"] andContext:self.managedObjectContext];
+    } else {
+        [Ship shipFromDictionary:userInfo[@"content"] andContext:self.managedObjectContext];
+    }
+    
+    [self save];
+    [self fetchData];
 }
 
 - (void)save

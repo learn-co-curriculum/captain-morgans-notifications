@@ -21,3 +21,5 @@
 + (instancetype) sharedPiratesDataStore;
 
 @end
+
+extern NSString * const DataStoreSaveNotification;

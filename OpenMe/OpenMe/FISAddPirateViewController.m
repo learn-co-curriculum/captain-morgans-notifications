@@ -8,7 +8,6 @@
 
 #import "FISAddPirateViewController.h"
 #import "FISPiratesDataStore.h"
-#import "Pirate.h"
 
 @interface FISAddPirateViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *pirateNameField;
@@ -21,6 +20,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -30,11 +30,9 @@
 }
 
 - (IBAction)saveButtonTapped:(id)sender {
-    FISPiratesDataStore *store = [FISPiratesDataStore sharedPiratesDataStore];
-    Pirate *newPirate = [NSEntityDescription insertNewObjectForEntityForName:@"Pirate" inManagedObjectContext:store.managedObjectContext];
-    newPirate.name = self.pirateNameField.text;
+    NSDictionary *pirateInfo = @{@"entity": @"Pirate", @"content": @{@"name": self.pirateNameField.text}};
+    [[NSNotificationCenter defaultCenter] postNotificationName:DataStoreSaveNotification object:nil userInfo:pirateInfo];
     
-    [store save];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
