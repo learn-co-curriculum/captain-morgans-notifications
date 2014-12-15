@@ -24,6 +24,8 @@ static NSString *const CellIdentifier = @"pirateCell";
     [super viewDidLoad];
     self.store = [FISPiratesDataStore sharedPiratesDataStore];
     [self.store fetchData];
+    self.tableView.accessibilityIdentifier = @"PiratesTableView";
+    self.tableView.accessibilityLabel = @"PiratesTableView";
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -45,6 +47,7 @@ static NSString *const CellIdentifier = @"pirateCell";
     // Return the number of rows in the section.
     return self.store.pirates.count;
 }
+
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {

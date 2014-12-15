@@ -12,37 +12,40 @@
 #import "Engine.h"
 
 @interface FISPiratesDataStore ()
+
 typedef NS_ENUM(NSInteger, EngineType) {
     Sail=1,
     Gas,
     Electric,
     Solar
 };
+
 @end
+
+
 @implementation FISPiratesDataStore
-@synthesize managedObjectContext = _managedObjectContext;
 
 NSString * const DataStoreSaveNotification = @"saveNotification";
 
 # pragma mark - Singleton
 
-+ (instancetype)sharedPiratesDataStore {
+-(instancetype)init
+{
+    
     static FISPiratesDataStore *_sharedPiratesDataStore = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _sharedPiratesDataStore = [[FISPiratesDataStore alloc] init];
+        _sharedPiratesDataStore = [super init];
+        
+         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationSave:) name:DataStoreSaveNotification object:nil];
     });
-
+    
     return _sharedPiratesDataStore;
 }
 
--(instancetype)init
++ (instancetype)sharedPiratesDataStore
 {
-    self = [super init];
-    if (self) {
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notificationSave:) name:DataStoreSaveNotification object:nil];
-    }
-    return self;
+    return [[self alloc] init];
 }
 
 -(void)dealloc
@@ -82,6 +85,7 @@ NSString * const DataStoreSaveNotification = @"saveNotification";
 
 // Returns the managed object context for the application.
 // If the context doesn't already exist, it is created and bound to the persistent store coordinator for the application.
+
 - (NSManagedObjectContext *)managedObjectContext
 {
     if (_managedObjectContext != nil) {
@@ -164,6 +168,7 @@ NSString * const DataStoreSaveNotification = @"saveNotification";
     NSFetchRequest *pirateRequest = [NSFetchRequest fetchRequestWithEntityName:@"Pirate"];
 
     NSSortDescriptor *nameSorter = [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES];
+
     pirateRequest.sortDescriptors = @[nameSorter];
 
     self.pirates = [self.managedObjectContext executeFetchRequest:pirateRequest error:nil];
@@ -172,4 +177,5 @@ NSString * const DataStoreSaveNotification = @"saveNotification";
         [self generateTestData];
     }
 }
+
 @end

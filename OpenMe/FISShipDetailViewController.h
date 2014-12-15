@@ -12,4 +12,7 @@
 @interface FISShipDetailViewController : UIViewController
 
 @property (strong, nonatomic) Ship *ship;
+
+-(void)setupLabels;
+
 @end

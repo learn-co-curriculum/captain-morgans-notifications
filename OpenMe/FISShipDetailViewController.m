@@ -23,6 +23,11 @@
 {
     [super viewDidLoad];
     
+    [self setupLabels];
+}
+
+-(void)setupLabels {
+    
     self.shipNameLabel.text = self.ship.name;
     self.pirateNameLabel.text = self.ship.pirate.name;
     self.propTypeLabel.text = self.ship.engine.engineType;

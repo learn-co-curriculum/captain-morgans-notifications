@@ -12,6 +12,7 @@
 @interface FISAddShipViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *shipNameField;
 @property (weak, nonatomic) IBOutlet UITextField *engineTypeField;
+@property (strong, nonatomic) NSDictionary *shipInfo;
 
 @end
 
@@ -25,6 +26,11 @@
     
 }
 
+//-(NSDictionary *)shipInfo {
+//    
+//    return _shipInfo;
+//}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -32,11 +38,16 @@
 }
 
 - (IBAction)saveButtonTapped:(id)sender {
-    NSDictionary *shipInfo = @{@"entity": @"ship", @"content": @{@"pirate": self.pirate, @"shipName": self.shipNameField.text, @"engineType": self.engineTypeField.text}};
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:DataStoreSaveNotification object:nil userInfo:shipInfo];
+    [self saveNotificationWithShipDictionary:@{@"entity": @"ship", @"content": @{@"pirate": self.pirate, @"shipName": self.shipNameField.text, @"engineType": self.engineTypeField.text}}];
 
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)saveNotificationWithShipDictionary:(NSDictionary *)shipDictionary {
+    
+        [[NSNotificationCenter defaultCenter] postNotificationName:DataStoreSaveNotification object:nil userInfo:shipDictionary];
+    
 }
 
 - (IBAction)cancelButtonTapped:(id)sender {

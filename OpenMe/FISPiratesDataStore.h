@@ -11,7 +11,7 @@
 
 @interface FISPiratesDataStore : NSObject
 
-@property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
+@property (readwrite, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 @property (strong, nonatomic) NSArray *pirates;
 
 - (void)fetchData;

@@ -15,6 +15,8 @@
 
 @interface FISShipsViewController ()
 
+@property (strong, nonatomic) NSArray *sortedShips;
+
 @end
 
 @implementation FISShipsViewController
@@ -24,7 +26,11 @@ static NSString *const CellIdentifier = @"shipCell";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    self.tableView.accessibilityIdentifier = @"ShipsTableView";
+    self.tableView.accessibilityLabel = @"ShipsTableView";
+    
+    NSSortDescriptor *nameSorter = [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES];
+    self.sortedShips = [self.pirate.ships sortedArrayUsingDescriptors:@[nameSorter]];
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
  
@@ -58,8 +64,7 @@ static NSString *const CellIdentifier = @"shipCell";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-    NSArray *ships = [self.pirate.ships allObjects];
-    Ship *currentShip = ships[indexPath.row];
+    Ship *currentShip = self.sortedShips[indexPath.row];
     
     cell.textLabel.text = currentShip.name;
     cell.detailTextLabel.text = currentShip.engine.engineType;

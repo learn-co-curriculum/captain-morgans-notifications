@@ -11,6 +11,7 @@
 
 @interface FISAddPirateViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *pirateNameField;
+@property (strong, nonatomic) NSDictionary *pirateInfo;
 
 @end
 
@@ -30,10 +31,15 @@
 }
 
 - (IBAction)saveButtonTapped:(id)sender {
-    NSDictionary *pirateInfo = @{@"entity": @"Pirate", @"content": @{@"name": self.pirateNameField.text}};
-    [[NSNotificationCenter defaultCenter] postNotificationName:DataStoreSaveNotification object:nil userInfo:pirateInfo];
+    
+    [self saveNotificationWithPirateDictionary:@{@"entity": @"Pirate", @"content": @{@"name": self.pirateNameField.text}}];
     
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+-(void)saveNotificationWithPirateDictionary:(NSDictionary *)pirateDictionary {
+    
+     [[NSNotificationCenter defaultCenter] postNotificationName:DataStoreSaveNotification object:nil userInfo:pirateDictionary];
 }
 
 - (IBAction)cancelButtonTapped:(id)sender {
