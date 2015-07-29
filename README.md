@@ -1,7 +1,4 @@
----
-languages: objc
-tags: delegates, coredata, advanced
----
+
 
 # Captain Morgan's Notifications -- Advanced Lab
 
