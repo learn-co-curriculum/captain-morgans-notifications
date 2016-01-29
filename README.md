@@ -27,4 +27,4 @@
 
 Your NSNotificationCenter `addObserver` method should be placed inside of the init method of your `FISPiratesDataStore`. Don't forget to appropriately remove the observer as well!
 
-<a href='https://learn.co/lessons/captain-morgans-notifications' data-visibility='hidden'>View this lesson on Learn.co</a>
+<p data-visibility='hidden'>View <a href='https://learn.co/lessons/captain-morgans-notifications' title='Captain Morgan's Notifications -- Advanced Lab'>Captain Morgan's Notifications -- Advanced Lab</a> on Learn.co and start learning to code for free.</p>
